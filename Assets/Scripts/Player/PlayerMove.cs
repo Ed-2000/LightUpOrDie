@@ -24,14 +24,15 @@ public class PlayerMove : MonoBehaviour
     public void Move()
     {
         //движение
-        _hor = _joystick.Horizontal() * PlayerParameters.Speed;
-        _vert = _joystick.Vertical() * PlayerParameters.Speed;
+        _hor = _joystick.Horizontal();
+        _vert = _joystick.Vertical();
 
         Vector3 moveVector = new Vector3(_hor, 0, _vert);
+        moveVector = moveVector.normalized * PlayerParameters.Speed;
 
         if (Vector3.Angle(Vector3.forward, moveVector) > 1f || Vector3.Angle(Vector3.forward, moveVector) == 0f)
         {
-            Vector3 direct = Vector3.RotateTowards(transform.forward, moveVector, PlayerParameters.Speed / 15f, 0f);
+            Vector3 direct = Vector3.RotateTowards(transform.forward, moveVector, PlayerParameters.RotateSpeed, 0f);
             transform.rotation = Quaternion.LookRotation(direct);
         }
 
